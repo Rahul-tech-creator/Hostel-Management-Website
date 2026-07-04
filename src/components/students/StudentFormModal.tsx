@@ -88,11 +88,15 @@ export const StudentFormModal = ({ isOpen, onClose, studentToEdit }: Props) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <motion.div 
+          key="student-modal"
+          className="fixed inset-0 z-50 flex items-center justify-center px-4"
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="absolute inset-0 bg-slate-900/30 backdrop-blur-md"
             onClick={onClose}
           />
@@ -100,6 +104,7 @@ export const StudentFormModal = ({ isOpen, onClose, studentToEdit }: Props) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2, delay: 0.05 }}
             className="glass-panel w-full max-w-2xl relative z-10 max-h-[90vh] flex flex-col"
           >
             <div className="px-6 py-4 border-b border-white/50 flex items-center justify-between shrink-0">
@@ -122,7 +127,7 @@ export const StudentFormModal = ({ isOpen, onClose, studentToEdit }: Props) => {
                   </div>
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-700">Phone Number</label>
-                    <input {...register('phone')} className="glass-input" placeholder="+1 (555) 000-0000" />
+                    <input {...register('phone')} type="number" className="glass-input" placeholder="10-digit mobile number" />
                     {errors.phone && <p className="text-[10px] text-danger-base">{errors.phone.message}</p>}
                   </div>
                 </div>
@@ -177,7 +182,7 @@ export const StudentFormModal = ({ isOpen, onClose, studentToEdit }: Props) => {
 
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-700">Government ID (Aadhaar / SSN)</label>
-                  <input {...register('govtId')} className="glass-input" placeholder="Enter ID number (will be redacted)" />
+                  <input {...register('govtId')} type="number" className="glass-input" placeholder="12-digit Aadhaar number" />
                   {errors.govtId && <p className="text-[10px] text-danger-base">{errors.govtId.message}</p>}
                 </div>
 
@@ -185,10 +190,12 @@ export const StudentFormModal = ({ isOpen, onClose, studentToEdit }: Props) => {
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-700">Guardian Name (Optional)</label>
                     <input {...register('guardianName')} className="glass-input" placeholder="Parent / Guardian" />
+                    {errors.guardianName && <p className="text-[10px] text-danger-base">{errors.guardianName.message}</p>}
                   </div>
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-700">Emergency Contact (Optional)</label>
-                    <input {...register('emergencyContact')} className="glass-input" placeholder="Phone number" />
+                    <input {...register('emergencyContact')} type="number" className="glass-input" placeholder="10-digit mobile number" />
+                    {errors.emergencyContact && <p className="text-[10px] text-danger-base">{errors.emergencyContact.message}</p>}
                   </div>
                 </div>
 
@@ -206,7 +213,7 @@ export const StudentFormModal = ({ isOpen, onClose, studentToEdit }: Props) => {
             </div>
 
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

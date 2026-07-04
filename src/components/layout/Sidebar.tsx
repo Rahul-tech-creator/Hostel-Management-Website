@@ -82,15 +82,7 @@ export const Sidebar = () => {
           ))}
         </nav>
 
-        <div className="px-4 mt-auto">
-          <div className="bg-gradient-to-br from-brand-50 to-purple-50 p-4 rounded-2xl border border-white">
-            <p className="text-xs font-semibold text-slate-700 mb-2">Need Help?</p>
-            <p className="text-[11px] text-slate-500 leading-relaxed mb-3">Check our documentation or contact support.</p>
-            <button className="text-[11px] font-bold text-brand-700 bg-white px-3 py-1.5 rounded-lg w-full shadow-sm hover:shadow-md transition-shadow">
-              Support Center
-            </button>
-          </div>
-        </div>
+        {/* Need Help removed */}
       </motion.aside>
     </>
   );

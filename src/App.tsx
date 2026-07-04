@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Dashboard } from '@/pages/Dashboard';
@@ -11,21 +11,39 @@ import { Rooms } from '@/pages/Rooms';
 import { Analytics } from '@/pages/Analytics';
 import { Reports } from '@/pages/Reports';
 import { Settings } from '@/pages/Settings';
+import { Login } from '@/pages/Login';
 
 import { useStore } from '@/store/useStore';
 
 function App() {
   const { rooms, bootstrapData } = useStore();
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
 
-  React.useEffect(() => {
-    if (rooms.length === 0) {
+  useEffect(() => {
+    if (rooms.length === 0 && isAuthenticated) {
       bootstrapData();
     }
-  }, [rooms.length, bootstrapData]);
+  }, [rooms.length, bootstrapData, isAuthenticated]);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem('isAuthenticated', 'true');
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Login onLogin={handleLogin} />
+        <Toaster position="bottom-left" />
+      </>
+    );
+  }
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <AppLayout>
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -37,7 +55,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </AppLayout>
-      </BrowserRouter>
+      </HashRouter>
       <Toaster 
         position="bottom-left" 
         toastOptions={{

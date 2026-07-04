@@ -1,21 +1,40 @@
 import React from 'react';
-import { Bell, Activity } from 'lucide-react';
+import { Activity, Search } from 'lucide-react';
 import { useStore } from '@/store/useStore';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const Topbar = () => {
-  const { settings } = useStore();
+  const { settings, searchQuery, setSearchQuery } = useStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value && location.pathname !== '/students') {
+      navigate('/students');
+    }
+  };
 
   return (
-    <header className="h-20 glass-panel !rounded-none !border-x-0 !border-t-0 px-6 lg:px-10 flex items-center justify-between z-10 shrink-0 sticky top-0">
+    <header className="h-20 glass-panel !rounded-none !border-x-0 !border-t-0 px-6 lg:px-10 flex items-center justify-between z-30 shrink-0 sticky top-0">
       
-      {/* Spacer to push items to the right */}
-      <div className="flex-1 hidden sm:block"></div>
-      <div className="flex items-center gap-4 ml-auto">
-        <button className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 transition-colors relative">
-          <Bell size={20} />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-danger-base border-2 border-slate-50"></span>
-        </button>
-        
+      {/* Global Search Bar */}
+      <div className="flex-1 max-w-md hidden sm:block mr-6 relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Search size={18} className="text-slate-400" />
+        </div>
+        <input 
+          type="text" 
+          placeholder="Search residents..." 
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="glass-input !pl-10 !py-2 w-full bg-slate-50/50" 
+        />
+      </div>
+      
+      <div className="flex-1 sm:hidden"></div>
+      
+      <div className="flex items-center gap-4 ml-auto relative">
         <button className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 transition-colors">
           <Activity size={20} />
         </button>

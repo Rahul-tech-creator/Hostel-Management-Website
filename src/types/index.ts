@@ -33,8 +33,22 @@ export interface Activity {
   timestamp: string;
 }
 
+export interface AppNotification {
+  id: string;
+  title: string;
+  message: string;
+  isRead: boolean;
+  timestamp: string;
+}
+
 export interface Settings {
   hostelName: string;
   adminName: string;
   supportEmail: string;
+  notificationPrefs: {
+    fee: boolean;
+    vacancy: boolean;
+    reports: boolean;
+    system: boolean;
+  };
 }

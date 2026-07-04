@@ -5,7 +5,7 @@ import { useStore } from '@/store/useStore';
 import toast from 'react-hot-toast';
 
 export const Settings = () => {
-  const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'data'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'data'>('profile');
   const [isSaving, setIsSaving] = useState(false);
   const { clearAllData, bootstrapData, students, rooms, floors } = useStore();
 
@@ -18,23 +18,39 @@ export const Settings = () => {
   };
 
   const handleExportData = () => {
-    const data = {
-      students,
-      rooms,
-      floors,
-      exportDate: new Date().toISOString()
-    };
+    const headers = ['ID', 'Name', 'Phone', 'Course', 'College', 'Room ID', 'Floor', 'Govt ID', 'Guardian Name', 'Emergency Contact', 'Fee Total', 'Fee Paid', 'Fee Status', 'Status', 'Joined At'];
     
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const csvContent = [
+      headers.join(','),
+      ...students.map(s => [
+        s.id,
+        `"${s.name}"`,
+        `"${s.phone}"`,
+        `"${s.course}"`,
+        `"${s.college}"`,
+        s.roomId,
+        s.floor,
+        `"${s.govtId}"`,
+        `"${s.guardianName || ''}"`,
+        `"${s.emergencyContact || ''}"`,
+        s.feeTotal,
+        s.feePaid,
+        s.feeStatus || 'pending',
+        s.status || 'active',
+        s.joinedAt
+      ].join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `hostel-os-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `hostel-students-export-${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success('Data exported successfully');
+    toast.success('Students data exported as CSV successfully');
   };
 
   const handleResetData = () => {
@@ -88,17 +104,7 @@ export const Settings = () => {
             <Building2 size={18} />
             Hostel Profile
           </button>
-          <button
-            onClick={() => setActiveTab('notifications')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all ${
-              activeTab === 'notifications' 
-                ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' 
-                : 'text-slate-600 hover:bg-white/60 hover:text-slate-900'
-            }`}
-          >
-            <Bell size={18} />
-            Notifications
-          </button>
+
           <button
             onClick={() => setActiveTab('data')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all ${
@@ -165,48 +171,7 @@ export const Settings = () => {
             </motion.div>
           )}
 
-          {activeTab === 'notifications' && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6 max-w-2xl"
-            >
-              <div>
-                <h2 className="text-xl font-bold text-slate-900">Notification Preferences</h2>
-                <p className="text-sm text-slate-500 mb-6">Choose what events you want to be notified about.</p>
-              </div>
 
-              <div className="space-y-4">
-                {[
-                  { id: 'fee', label: 'Fee Reminders', desc: 'Alert when a student\'s fee is overdue' },
-                  { id: 'vacancy', label: 'Room Vacancy', desc: 'Notify when a room becomes completely empty' },
-                  { id: 'reports', label: 'Weekly Reports', desc: 'Receive a weekly summary email' },
-                  { id: 'system', label: 'System Updates', desc: 'New feature announcements and maintenance' }
-                ].map((setting) => (
-                  <div key={setting.id} className="flex items-center justify-between p-4 bg-white/40 border border-slate-200/60 rounded-xl">
-                    <div>
-                      <p className="font-bold text-slate-900">{setting.label}</p>
-                      <p className="text-sm text-slate-500">{setting.desc}</p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" defaultChecked className="sr-only peer" />
-                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
-                    </label>
-                  </div>
-                ))}
-              </div>
-
-              <div className="pt-4 flex justify-end">
-                <button 
-                  onClick={handleSave}
-                  className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-bold transition-all"
-                >
-                  <Save size={18} />
-                  Save Preferences
-                </button>
-              </div>
-            </motion.div>
-          )}
 
           {activeTab === 'data' && (
             <motion.div

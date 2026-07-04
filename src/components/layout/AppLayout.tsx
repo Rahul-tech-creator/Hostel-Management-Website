@@ -13,7 +13,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen w-full relative z-0">
+    <div className="flex min-h-[100dvh] w-full relative z-0 overflow-x-hidden">
       <Sidebar />
       
       <div className="flex-1 flex flex-col min-w-0">

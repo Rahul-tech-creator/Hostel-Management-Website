@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Student, Room, Activity, Settings } from '@/types';
+import { Student, Room, Activity, Settings, AppNotification } from '@/types';
 
 interface AppState {
   floors: string[];
@@ -8,12 +8,19 @@ interface AppState {
   students: Student[];
   activities: Activity[];
   settings: Settings;
+  notifications: AppNotification[];
+  searchQuery: string;
   
   // Actions
+  setSearchQuery: (query: string) => void;
   addStudent: (student: Student) => void;
   updateStudent: (id: string, updates: Partial<Student>) => void;
   deleteStudent: (id: string) => void;
   logActivity: (activity: Omit<Activity, 'id' | 'timestamp'>) => void;
+  markNotificationAsRead: (id: string) => void;
+  clearAllNotifications: () => void;
+  updateNotificationPrefs: (prefs: Partial<Settings['notificationPrefs']>) => void;
+  updateSettings: (updates: Partial<Settings>) => void;
   bootstrapData: () => void;
   clearAllData: () => void;
 }
@@ -28,11 +35,21 @@ export const useStore = create<AppState>()(
       rooms: [],
       students: [],
       activities: [],
+      notifications: [],
+      searchQuery: '',
       settings: {
         hostelName: 'Premium Hub',
         adminName: 'Admin User',
         supportEmail: 'support@hostel.os',
+        notificationPrefs: {
+          fee: true,
+          vacancy: true,
+          reports: true,
+          system: true,
+        },
       },
+
+      setSearchQuery: (query) => set({ searchQuery: query }),
 
       addStudent: (student) => set((state) => {
         // Find room and add occupant
@@ -103,6 +120,28 @@ export const useStore = create<AppState>()(
         };
       }),
 
+      markNotificationAsRead: (id) => set((state) => ({
+        notifications: state.notifications.map(n => 
+          n.id === id ? { ...n, isRead: true } : n
+        )
+      })),
+
+      clearAllNotifications: () => set({ notifications: [] }),
+
+      updateNotificationPrefs: (prefs) => set((state) => ({
+        settings: {
+          ...state.settings,
+          notificationPrefs: {
+            ...state.settings.notificationPrefs,
+            ...prefs,
+          }
+        }
+      })),
+
+      updateSettings: (updates) => set((state) => ({
+        settings: { ...state.settings, ...updates }
+      })),
+
       bootstrapData: () => set((state) => {
         if (state.rooms.length > 0) return state; // Already bootstrapped
 
@@ -135,7 +174,6 @@ export const useStore = create<AppState>()(
           const feeTotal = 120000;
           const feePaid = Math.random() > 0.4 ? 120000 : Math.floor(Math.random() * 100000);
           
-          // Generate a random joinedAt date within the last 6 months
           const now = new Date();
           const past = new Date();
           past.setMonth(now.getMonth() - 6);
@@ -168,6 +206,11 @@ export const useStore = create<AppState>()(
           students,
           activities: [
             { id: '1', type: 'primary', title: 'System initialized', desc: 'OS booted and populated with demo data', timestamp: new Date().toISOString() }
+          ],
+          notifications: [
+            { id: 'n1', title: 'Fee Reminder', message: '5 students have overdue fees', isRead: false, timestamp: new Date(Date.now() - 3600000).toISOString() },
+            { id: 'n2', title: 'Room Vacancy', message: 'Room 204 is now completely vacant', isRead: false, timestamp: new Date(Date.now() - 86400000).toISOString() },
+            { id: 'n3', title: 'System Update', message: 'Hostel OS updated to v2.1', isRead: true, timestamp: new Date(Date.now() - 172800000).toISOString() }
           ]
         };
       }),
@@ -176,6 +219,7 @@ export const useStore = create<AppState>()(
         students: [],
         rooms: [],
         activities: [],
+        notifications: [],
       })
     }),
     {

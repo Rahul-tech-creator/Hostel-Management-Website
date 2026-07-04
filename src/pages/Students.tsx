@@ -8,7 +8,7 @@ import { Search, Plus, Filter } from 'lucide-react';
 
 export const Students = () => {
   const students = useStore(state => state.students);
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchQuery = useStore(state => state.searchQuery);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [studentToEdit, setStudentToEdit] = useState<Student | null>(null);
 
@@ -22,6 +22,26 @@ export const Students = () => {
     setIsModalOpen(true);
   };
 
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = React.useRef(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setIsVisible(false);
+      } else if (currentScrollY < lastScrollY.current) {
+        setIsVisible(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const filteredStudents = React.useMemo(() => {
     return students.filter(s => 
       s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -32,7 +52,11 @@ export const Students = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto">
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 shrink-0">
+      <div 
+        className={`sticky top-24 z-20 glass-panel !rounded-2xl p-4 sm:p-5 mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 shrink-0 shadow-md transition-all duration-300 ${
+          isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[150%] opacity-0 pointer-events-none'
+        }`}
+      >
         <div>
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
@@ -52,16 +76,6 @@ export const Students = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="relative flex-1 sm:w-64">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input 
-              type="text" 
-              placeholder="Search directory..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="glass-input !py-2.5 !pl-9"
-            />
-          </div>
           <button className="glass-btn-secondary !px-4 !py-2.5">
             <Filter size={18} className="text-slate-500" />
           </button>
