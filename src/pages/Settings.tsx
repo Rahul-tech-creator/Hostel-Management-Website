@@ -55,7 +55,7 @@ export const Settings = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto h-full flex flex-col">
+    <div className="w-full max-w-5xl mx-auto">
       <div className="mb-6 shrink-0">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
@@ -74,7 +74,7 @@ export const Settings = () => {
         </motion.p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 flex-1 min-h-0">
+      <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar */}
         <div className="w-full md:w-64 shrink-0 space-y-2">
           <button
@@ -113,7 +113,7 @@ export const Settings = () => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 glass-panel rounded-2xl overflow-y-auto p-6 md:p-8">
+        <div className="flex-1 glass-panel rounded-2xl p-6 md:p-8">
           {activeTab === 'profile' && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}

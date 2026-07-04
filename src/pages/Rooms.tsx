@@ -20,7 +20,7 @@ export const Rooms = () => {
   const floorAvailable = totalFloorCapacity - floorOccupied;
 
   return (
-    <div className="max-w-7xl mx-auto h-full flex flex-col">
+    <div className="w-full max-w-7xl mx-auto">
       <div className="mb-6 shrink-0">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
@@ -57,7 +57,7 @@ export const Rooms = () => {
       </div>
 
       {/* Floor Overview KPI */}
-      <div className="grid grid-cols-3 gap-4 mb-8 shrink-0">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 shrink-0">
         <div className="glass-panel p-4 flex flex-col justify-center border-l-4 border-l-brand-500">
           <p className="text-[11px] uppercase font-bold text-slate-400 mb-1">Total Rooms</p>
           <p className="text-2xl font-black text-slate-900">{floorRooms.length}</p>
@@ -73,7 +73,7 @@ export const Rooms = () => {
       </div>
 
       {/* Room Grid */}
-      <div className="flex-1 overflow-y-auto pb-10">
+      <div className="pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {floorRooms.map(room => (
             <RoomCard key={room.id} room={room} onClick={setSelectedRoom} />

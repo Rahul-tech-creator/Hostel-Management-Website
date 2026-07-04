@@ -31,7 +31,7 @@ export const Students = () => {
   }, [students, searchQuery]);
 
   return (
-    <div className="max-w-7xl mx-auto h-full flex flex-col">
+    <div className="w-full max-w-7xl mx-auto">
       <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 shrink-0">
         <div>
           <motion.h1 
@@ -72,7 +72,7 @@ export const Students = () => {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0">
+      <div>
         <StudentTable 
           students={filteredStudents} 
           onEdit={handleEdit} 

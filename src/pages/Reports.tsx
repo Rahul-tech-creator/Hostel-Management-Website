@@ -56,7 +56,7 @@ export const Reports = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto h-full flex flex-col">
+    <div className="w-full max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 shrink-0 gap-4">
         <div>
           <motion.h1 
@@ -121,9 +121,9 @@ export const Reports = () => {
         </button>
       </div>
 
-      <div className="flex-1 glass-panel rounded-2xl overflow-hidden flex flex-col">
+      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col">
         {activeReport === 'defaulters' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col h-full">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col">
             <div className="p-6 border-b border-white/50 bg-white/30 shrink-0 flex justify-between items-center">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">Fee Defaulters</h2>
@@ -134,8 +134,8 @@ export const Reports = () => {
                 <p className="text-2xl font-black text-danger-600">₹{totalDue.toLocaleString()}</p>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-0">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto p-0">
+              <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead className="bg-slate-50/80 backdrop-blur-md sticky top-0 z-10">
                   <tr>
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Student Name</th>
@@ -176,8 +176,8 @@ export const Reports = () => {
         )}
 
         {activeReport === 'occupancy' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col h-full">
-            <div className="p-6 border-b border-white/50 bg-white/30 shrink-0 grid grid-cols-3 gap-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col">
+            <div className="p-6 border-b border-white/50 bg-white/30 shrink-0 grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-success-bg/50 p-4 rounded-xl border border-success-base/20">
                 <p className="text-xs font-bold text-success-base uppercase mb-1">Completely Vacant</p>
                 <p className="text-2xl font-black text-slate-900">{vacantRooms.length} <span className="text-sm font-medium text-slate-500">rooms</span></p>
@@ -191,8 +191,8 @@ export const Reports = () => {
                 <p className="text-2xl font-black text-slate-900">{fullyOccupied.length} <span className="text-sm font-medium text-slate-500">rooms</span></p>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-0">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto p-0">
+              <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead className="bg-slate-50/80 backdrop-blur-md sticky top-0 z-10">
                   <tr>
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Room Number</th>
@@ -231,7 +231,7 @@ export const Reports = () => {
         )}
 
         {activeReport === 'revenue' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col h-full">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col">
             <div className="p-6 border-b border-white/50 bg-white/30 shrink-0 flex justify-between items-center">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">Revenue Ledger</h2>
@@ -242,8 +242,8 @@ export const Reports = () => {
                 <p className="text-2xl font-black text-success-600">₹{paidStudents.reduce((sum, s) => sum + s.feePaid, 0).toLocaleString()}</p>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-0">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto p-0">
+              <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead className="bg-slate-50/80 backdrop-blur-md sticky top-0 z-10">
                   <tr>
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>

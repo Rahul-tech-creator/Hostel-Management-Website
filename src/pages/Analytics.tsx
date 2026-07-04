@@ -15,7 +15,7 @@ export const Analytics = () => {
   const [dateFilter, setDateFilter] = useState('All Time');
 
   return (
-    <div className="max-w-[1600px] mx-auto h-full flex flex-col space-y-6">
+    <div className="w-full max-w-[1600px] mx-auto space-y-6">
       
       {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
@@ -87,7 +87,7 @@ export const Analytics = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="flex-1 overflow-y-auto min-h-0 pb-12">
+      <div className="pb-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -95,7 +95,6 @@ export const Analytics = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="h-full"
           >
             {activeTab === 'overview' && <ExecutiveOverview dateFilter={dateFilter} />}
             {activeTab === 'occupancy' && <OccupancyAnalytics dateFilter={dateFilter} />}

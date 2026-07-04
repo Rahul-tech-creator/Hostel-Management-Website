@@ -19,7 +19,7 @@ export const Sidebar = () => {
     <>
       {/* Mobile Toggle */}
       <button 
-        className="md:hidden fixed bottom-6 right-6 z-50 glass-btn rounded-full w-14 h-14 !p-0"
+        className="md:hidden fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-brand-600 text-white shadow-lg shadow-brand-600/30 active:scale-95 transition-transform"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle Sidebar"
       >
@@ -40,7 +40,7 @@ export const Sidebar = () => {
       </AnimatePresence>
 
       <motion.aside
-        className={`fixed md:relative z-40 w-72 h-full glass-panel !rounded-none !border-y-0 !border-l-0 flex flex-col pt-8 pb-6 px-4 shrink-0 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
+        className={`fixed inset-y-0 left-0 md:relative z-40 w-72 h-full glass-panel !rounded-none !border-y-0 !border-l-0 flex flex-col pt-8 pb-6 px-4 shrink-0 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
       >
         <div className="px-4 mb-10 flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-brand-500/25">

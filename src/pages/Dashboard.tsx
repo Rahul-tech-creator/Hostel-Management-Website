@@ -15,7 +15,7 @@ export const Dashboard = () => {
   const occupancyRate = totalCapacity > 0 ? Math.round((occupiedBeds / totalCapacity) * 100) : 0;
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto">
       <div className="mb-8">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
@@ -62,11 +62,11 @@ export const Dashboard = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[400px]">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:h-[400px]">
+        <div className="lg:col-span-2 min-h-[400px] lg:min-h-0">
           <OccupancyChart />
         </div>
-        <div>
+        <div className="min-h-[400px] lg:min-h-0">
           <ActivityFeed />
         </div>
       </div>
