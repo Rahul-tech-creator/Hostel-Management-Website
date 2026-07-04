@@ -30,7 +30,7 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-white/65 backdrop-blur-[24px] saturate-[180%] border border-white/80 border-t-white/90 border-l-white/90 rounded-[28px] shadow-[0_10px_40px_-10px_rgba(15,23,42,0.08)] transition-all duration-[400ms] ease-out;
+    @apply bg-white/95 md:bg-white/65 md:backdrop-blur-[24px] md:saturate-[180%] border border-white/80 border-t-white/90 border-l-white/90 rounded-[28px] shadow-[0_10px_40px_-10px_rgba(15,23,42,0.08)] transition-all duration-[400ms] ease-out;
   }
   .glass-panel:hover {
     @apply shadow-[0_20px_40px_-10px_rgba(15,23,42,0.12)];
